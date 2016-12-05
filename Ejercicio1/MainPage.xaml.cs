@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Ejercicio1.Model;
+using Ejercicio1.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,9 +25,29 @@ namespace Ejercicio1
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+        private Stopwatch miReloj=new Stopwatch();
         public MainPage()
         {
             this.InitializeComponent();
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
+            miReloj.Start();
+        }
+
+        private void timer_Tick(object sender, object e)
+        {
+            Reloj.Text = string.Format("{0}:{1}:{2}", miReloj.Elapsed.Hours.ToString(),
+                miReloj.Elapsed.Minutes.ToString(),
+                miReloj.Elapsed.Seconds.ToString());
+        }
+
+        private void Reiniciar_Click(object sender, RoutedEventArgs e)
+        {
+            miReloj.Restart();
         }
     }
 }
